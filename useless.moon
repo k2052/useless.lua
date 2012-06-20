@@ -1,5 +1,7 @@
 require 'bit'
 
+export deepCopy
+
 math.round = (num, idp) ->
   mult = 10 ^ (idp or 0)
   return math.floor(num * mult + 0.5) / mult
@@ -27,3 +29,24 @@ math.toInt16 = (b1, b2) ->
   if bit.bit(val) >= 0x8000 then 
     bit.bit(val) - 0x10000 
   else val
+
+table.contains = (table, key) ->
+  for _, value in pairs(table)
+    if value == key return true
+  return false
+
+deepCopy = (object) ->
+  lookup_table = {}
+  _copy = (object) ->
+    if type(object) ~= "table"
+      return object
+    elseif lookup_table[object]
+      return lookup_table[object]
+    new_table = {}
+    lookup_table[object] = new_table
+
+    for index, value in pairs(object) 
+      new_table[_copy(index)] = _copy(value)
+
+    return setmetatable(new_table, getmetatable(object))
+  return _copy(object)
