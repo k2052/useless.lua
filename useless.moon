@@ -22,7 +22,7 @@ math.pad4 = (i) ->
   return bit.band(bit.band(i,0xFF) + 1 + 3, bit.bnot(0x03)) - 1
 
 math.toUInt16 = (b1, b2) -> 
-   return bit.bor(bit.lshift(b1, 8), b2)
+  return bit.bor(bit.lshift(b1, 8), b2)
   
 math.toInt16 = (b1, b2) ->
   val = math.toUInt16(b1, b2)
@@ -34,6 +34,12 @@ table.contains = (table, key) ->
   for _, value in pairs(table)
     if value == key return true
   return false
+
+table.insertM = (t, ...) ->
+  maxn = table.maxn(arg)
+  for i,v in pairs(arg)
+    if i != maxn
+      table.insert(t, v)
 
 deepCopy = (object) ->
   lookup_table = {}
