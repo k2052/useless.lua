@@ -30,3 +30,29 @@ math.toInt16 = function(b1, b2)
     return val
   end
 end
+table.contains = function(table, key)
+  for _, value in pairs(table) do
+    if value == key then
+      return true
+    end
+  end
+  return false
+end
+deepCopy = function(object)
+  local lookup_table = { }
+  local _copy
+  _copy = function(object)
+    if type(object) ~= "table" then
+      return object
+    elseif lookup_table[object] then
+      return lookup_table[object]
+    end
+    local new_table = { }
+    lookup_table[object] = new_table
+    for index, value in pairs(object) do
+      new_table[_copy(index)] = _copy(value)
+    end
+    return setmetatable(new_table, getmetatable(object))
+  end
+  return _copy(object)
+end
