@@ -38,6 +38,14 @@ table.contains = function(table, key)
   end
   return false
 end
+table.insertM = function(t, ...)
+  local maxn = table.maxn(arg)
+  for i, v in pairs(arg) do
+    if i ~= maxn then
+      table.insert(t, v)
+    end
+  end
+end
 deepCopy = function(object)
   local lookup_table = { }
   local _copy
